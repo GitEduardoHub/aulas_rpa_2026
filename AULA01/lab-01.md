@@ -1,11 +1,13 @@
 # Lab 01: Setup do Ambiente Dev e Hello World do Bot
 
 ## 🎯 Objetivos de Aprendizagem
+
 - Configurar o ambiente de desenvolvimento Python para RPA.
 - Versionar scripts e gerenciar credenciais via GitHub.
 - Compreender a tipagem de dados aplicada à automação.
 
 ## 💼 Desafio de Mercado
+
 Um analista de operações gasta cerca de 30 minutos todos os dias verificando manualmente se as variáveis de ambiente e as credenciais do sistema de faturamento estão devidamente tipadas antes de rodar os scripts de fechamento. Você foi contratado para criar um script de verificação/inicialização de variáveis de ambiente do robô.
 
 ---
