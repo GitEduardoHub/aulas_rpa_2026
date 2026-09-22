@@ -32,4 +32,3 @@ def processar_arquivo(caminho: str):
 # Código para testar a função caso você queira rodar localmente:
 if __name__ == "__main__":
     processar_arquivo("teste.csv")
-    
