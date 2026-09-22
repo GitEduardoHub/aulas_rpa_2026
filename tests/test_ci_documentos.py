@@ -21,9 +21,7 @@ WORKFLOW_PATH = os.path.join(
 def workflow() -> dict:
     """Carrega e faz parse do arquivo YAML do workflow."""
     abs_path = os.path.abspath(WORKFLOW_PATH)
-    assert os.path.isfile(abs_path), (
-        f"Workflow não encontrado: {abs_path}"
-    )
+    assert os.path.isfile(abs_path), f"Workflow não encontrado: {abs_path}"
     with open(abs_path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
@@ -41,13 +39,13 @@ def _get_all_steps(workflow: dict) -> list[dict]:
 # 1. Verifica que o workflow usa actions/checkout@v4
 # ---------------------------------------------------------------------------
 
+
 def test_uses_checkout_v4(workflow: dict):
     """O workflow deve usar actions/checkout@v4 como step de checkout."""
     steps = _get_all_steps(workflow)
     uses_values = [step.get("uses", "") for step in steps]
     assert any("actions/checkout@v4" in u for u in uses_values), (
-        "Nenhum step usa 'actions/checkout@v4'. "
-        f"Actions encontradas: {uses_values}"
+        "Nenhum step usa 'actions/checkout@v4'. " f"Actions encontradas: {uses_values}"
     )
 
 
@@ -55,14 +53,15 @@ def test_uses_checkout_v4(workflow: dict):
 # 2. Verifica ausência de actions/setup-python (workflow usa somente bash)
 # ---------------------------------------------------------------------------
 
+
 def test_does_not_use_setup_python(workflow: dict):
     """O workflow NÃO deve usar actions/setup-python (usa somente bash)."""
     steps = _get_all_steps(workflow)
     uses_values = [step.get("uses", "") for step in steps]
     setup_python_steps = [u for u in uses_values if "setup-python" in u]
-    assert not setup_python_steps, (
-        f"O workflow não deveria usar 'setup-python', mas encontrou: {setup_python_steps}"
-    )
+    assert (
+        not setup_python_steps
+    ), f"O workflow não deveria usar 'setup-python', mas encontrou: {setup_python_steps}"
 
 
 # ---------------------------------------------------------------------------
@@ -93,14 +92,15 @@ def _get_all_run_scripts(workflow: dict) -> str:
 def test_required_markdown_file_mentioned_in_steps(md_file: str, workflow: dict):
     """Cada arquivo Markdown obrigatório deve ser mencionado em algum step 'run'."""
     all_scripts = _get_all_run_scripts(workflow)
-    assert md_file in all_scripts, (
-        f"O arquivo '{md_file}' não foi encontrado em nenhum step 'run' do workflow."
-    )
+    assert (
+        md_file in all_scripts
+    ), f"O arquivo '{md_file}' não foi encontrado em nenhum step 'run' do workflow."
 
 
 # ---------------------------------------------------------------------------
 # 4. Sanidade geral do workflow
 # ---------------------------------------------------------------------------
+
 
 def test_workflow_has_jobs(workflow: dict):
     """O workflow deve definir ao menos um job."""
@@ -114,14 +114,16 @@ def test_workflow_triggers_push_and_pr(workflow: dict):
     # O campo 'on' pode ser string ou dict; aqui esperamos dict
     assert isinstance(on, dict), "O campo 'on' deve ser um dicionário com os triggers."
     assert "push" in on, "O trigger 'push' não está configurado no workflow."
-    assert "pull_request" in on, "O trigger 'pull_request' não está configurado no workflow."
+    assert (
+        "pull_request" in on
+    ), "O trigger 'pull_request' não está configurado no workflow."
 
     push_branches = on.get("push", {}).get("branches", [])
     pr_branches = on.get("pull_request", {}).get("branches", [])
 
-    assert "main" in push_branches, (
-        f"O trigger 'push' deve incluir a branch 'main'. Branches encontradas: {push_branches}"
-    )
-    assert "main" in pr_branches, (
-        f"O trigger 'pull_request' deve incluir a branch 'main'. Branches encontradas: {pr_branches}"
-    )
+    assert (
+        "main" in push_branches
+    ), f"O trigger 'push' deve incluir a branch 'main'. Branches encontradas: {push_branches}"
+    assert (
+        "main" in pr_branches
+    ), f"O trigger 'pull_request' deve incluir a branch 'main'. Branches encontradas: {pr_branches}"

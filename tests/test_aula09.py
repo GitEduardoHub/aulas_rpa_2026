@@ -11,7 +11,6 @@ import pathlib
 
 import pytest
 
-
 SCRIPT_PATH = pathlib.Path(__file__).parent.parent / "AULA09" / "web_avancado.py"
 
 
@@ -46,7 +45,9 @@ class TestPartes:
 
     def test_url_alerts(self, source_code):
         """Parte 2: deve acessar /javascript_alerts."""
-        assert "javascript_alerts" in source_code, "URL /javascript_alerts não referenciada."
+        assert (
+            "javascript_alerts" in source_code
+        ), "URL /javascript_alerts não referenciada."
 
     def test_usa_accept_alert(self, source_code):
         """Parte 2: deve usar accept() no alert."""

@@ -12,7 +12,6 @@ import pathlib
 
 import pytest
 
-
 SCRIPT_PATH = pathlib.Path(__file__).parent.parent / "AULA06" / "notepad_bot.py"
 
 

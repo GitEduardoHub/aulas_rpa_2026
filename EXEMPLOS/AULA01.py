@@ -1,8 +1,8 @@
 # 1) Declaracao e inicializacao com tipos explicitos ------------------------
-BOT_NAME: str = "RPA_BACKUP_NOTURNO"     # texto  -> str
-MAX_RETRIES: int = 3                     # inteiro -> int
-EXECUTION_TIMEOUT: float = 12.5          # decimal -> float
-IS_PRODUCTION: bool = False              # verdadeiro/falso -> bool
+BOT_NAME: str = "RPA_BACKUP_NOTURNO"  # texto  -> str
+MAX_RETRIES: int = 3  # inteiro -> int
+EXECUTION_TIMEOUT: float = 12.5  # decimal -> float
+IS_PRODUCTION: bool = False  # verdadeiro/falso -> bool
 
 
 def mostrar_configuracao() -> None:

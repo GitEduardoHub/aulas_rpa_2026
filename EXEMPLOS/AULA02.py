@@ -1,8 +1,12 @@
 emails_pendentes = [
     {"cliente": "ACME", "tentativas": 0, "status": "PENDENTE"},
-    {"cliente": "Globex", "tentativas": 5, "status": "PENDENTE"},   # estourou limite
-    {"cliente": "Umbrella", "tentativas": 1, "status": "ENVIADO"},  # ja enviado -> pular
-    {"cliente": "Stark", "tentativas": 0, "status": "BLOQUEADO"},   # para tudo!
+    {"cliente": "Globex", "tentativas": 5, "status": "PENDENTE"},  # estourou limite
+    {
+        "cliente": "Umbrella",
+        "tentativas": 1,
+        "status": "ENVIADO",
+    },  # ja enviado -> pular
+    {"cliente": "Stark", "tentativas": 0, "status": "BLOQUEADO"},  # para tudo!
     {"cliente": "Wayne", "tentativas": 2, "status": "PENDENTE"},
 ]
 

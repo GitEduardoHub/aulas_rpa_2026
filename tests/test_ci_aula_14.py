@@ -9,7 +9,6 @@ import os
 import yaml
 import pytest
 
-
 WORKFLOW_PATH = os.path.join(
     os.path.dirname(__file__),
     "..",
@@ -23,9 +22,7 @@ WORKFLOW_PATH = os.path.join(
 def workflow() -> dict:
     """Carrega e faz parse do arquivo YAML do workflow ci_aula_14.yml."""
     abs_path = os.path.abspath(WORKFLOW_PATH)
-    assert os.path.isfile(abs_path), (
-        f"Workflow não encontrado: {abs_path}"
-    )
+    assert os.path.isfile(abs_path), f"Workflow não encontrado: {abs_path}"
     with open(abs_path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
@@ -61,11 +58,12 @@ def _get_run_step_for_file(steps: list[dict], filename: str) -> dict | None:
 # Sanidade básica
 # ---------------------------------------------------------------------------
 
+
 def test_workflow_file_exists():
     """O arquivo ci_aula_14.yml deve existir em .github/workflows/."""
-    assert os.path.isfile(os.path.abspath(WORKFLOW_PATH)), (
-        f"Arquivo não encontrado: {WORKFLOW_PATH}"
-    )
+    assert os.path.isfile(
+        os.path.abspath(WORKFLOW_PATH)
+    ), f"Arquivo não encontrado: {WORKFLOW_PATH}"
 
 
 def test_workflow_has_jobs(workflow: dict):
@@ -84,22 +82,22 @@ def test_workflow_triggers_push_and_pr(workflow: dict):
     assert on, "O campo 'on' (triggers) não foi encontrado ou está vazio no workflow."
     assert isinstance(on, dict), "O campo 'on' deve ser um dicionário com os triggers."
 
-    assert "push" in on, (
-        f"O trigger 'push' não está configurado. Triggers encontrados: {list(on.keys())}"
-    )
-    assert "pull_request" in on, (
-        f"O trigger 'pull_request' não está configurado. Triggers encontrados: {list(on.keys())}"
-    )
+    assert (
+        "push" in on
+    ), f"O trigger 'push' não está configurado. Triggers encontrados: {list(on.keys())}"
+    assert (
+        "pull_request" in on
+    ), f"O trigger 'pull_request' não está configurado. Triggers encontrados: {list(on.keys())}"
 
     push_branches = on.get("push", {}).get("branches", [])
     pr_branches = on.get("pull_request", {}).get("branches", [])
 
-    assert "main" in push_branches, (
-        f"O trigger 'push' deve incluir 'main'. Branches encontradas: {push_branches}"
-    )
-    assert "main" in pr_branches, (
-        f"O trigger 'pull_request' deve incluir 'main'. Branches encontradas: {pr_branches}"
-    )
+    assert (
+        "main" in push_branches
+    ), f"O trigger 'push' deve incluir 'main'. Branches encontradas: {push_branches}"
+    assert (
+        "main" in pr_branches
+    ), f"O trigger 'pull_request' deve incluir 'main'. Branches encontradas: {pr_branches}"
 
 
 def test_uses_checkout_v4(workflow: dict):
@@ -107,8 +105,7 @@ def test_uses_checkout_v4(workflow: dict):
     steps = _get_all_steps(workflow)
     uses_values = [step.get("uses", "") for step in steps]
     assert any("actions/checkout@v4" in u for u in uses_values), (
-        "Nenhum step usa 'actions/checkout@v4'. "
-        f"Actions encontradas: {uses_values}"
+        "Nenhum step usa 'actions/checkout@v4'. " f"Actions encontradas: {uses_values}"
     )
 
 
@@ -116,17 +113,17 @@ def test_does_not_use_setup_python(workflow: dict):
     """O workflow NÃO deve usar actions/setup-python (usa somente bash)."""
     steps = _get_all_steps(workflow)
     setup_python_steps = [
-        step.get("uses", "") for step in steps
-        if "setup-python" in step.get("uses", "")
+        step.get("uses", "") for step in steps if "setup-python" in step.get("uses", "")
     ]
-    assert not setup_python_steps, (
-        f"O workflow não deveria usar 'setup-python', mas encontrou: {setup_python_steps}"
-    )
+    assert (
+        not setup_python_steps
+    ), f"O workflow não deveria usar 'setup-python', mas encontrou: {setup_python_steps}"
 
 
 # ---------------------------------------------------------------------------
 # Requisito 7.2 — Step dedicado para requirements.txt com AVISO
 # ---------------------------------------------------------------------------
+
 
 def test_requirements_txt_has_dedicated_step(workflow: dict):
     """
@@ -161,6 +158,7 @@ def test_requirements_txt_step_emits_aviso(workflow: dict):
 # Requisito 7.3 — Step dedicado para .gitignore com AVISO
 # ---------------------------------------------------------------------------
 
+
 def test_gitignore_has_dedicated_step(workflow: dict):
     """
     Deve existir um step dedicado que mencione '.gitignore'.
@@ -185,14 +183,14 @@ def test_gitignore_step_emits_aviso(workflow: dict):
 
     run_script = step.get("run", "")
     assert "AVISO" in run_script, (
-        "O step de '.gitignore' não emite 'AVISO'. "
-        f"Script atual:\n{run_script}"
+        "O step de '.gitignore' não emite 'AVISO'. " f"Script atual:\n{run_script}"
     )
 
 
 # ---------------------------------------------------------------------------
 # Requisito 7.4 — Step dedicado para README.md com AVISO
 # ---------------------------------------------------------------------------
+
 
 def test_readme_md_has_dedicated_step(workflow: dict):
     """
@@ -218,14 +216,14 @@ def test_readme_md_step_emits_aviso(workflow: dict):
 
     run_script = step.get("run", "")
     assert "AVISO" in run_script, (
-        "O step de 'README.md' não emite 'AVISO'. "
-        f"Script atual:\n{run_script}"
+        "O step de 'README.md' não emite 'AVISO'. " f"Script atual:\n{run_script}"
     )
 
 
 # ---------------------------------------------------------------------------
 # Requisito 7.6 — Step final (resumo) contém exit 0 explícito
 # ---------------------------------------------------------------------------
+
 
 def test_final_step_contains_exit_0(workflow: dict):
     """
@@ -249,11 +247,15 @@ def test_final_step_contains_exit_0(workflow: dict):
 # Verificação combinada — os três arquivos obrigatórios têm steps separados
 # ---------------------------------------------------------------------------
 
-@pytest.mark.parametrize("required_file", [
-    "requirements.txt",
-    ".gitignore",
-    "README.md",
-])
+
+@pytest.mark.parametrize(
+    "required_file",
+    [
+        "requirements.txt",
+        ".gitignore",
+        "README.md",
+    ],
+)
 def test_each_required_file_has_dedicated_step(required_file: str, workflow: dict):
     """
     Cada um dos três arquivos obrigatórios deve ter seu próprio step dedicado.
@@ -267,11 +269,14 @@ def test_each_required_file_has_dedicated_step(required_file: str, workflow: dic
     )
 
 
-@pytest.mark.parametrize("required_file", [
-    "requirements.txt",
-    ".gitignore",
-    "README.md",
-])
+@pytest.mark.parametrize(
+    "required_file",
+    [
+        "requirements.txt",
+        ".gitignore",
+        "README.md",
+    ],
+)
 def test_each_required_file_step_emits_aviso(required_file: str, workflow: dict):
     """
     O step de cada arquivo obrigatório deve emitir 'AVISO' para cobrir o caso de ausência.

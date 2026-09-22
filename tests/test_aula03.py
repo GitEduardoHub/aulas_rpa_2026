@@ -13,7 +13,6 @@ import sys
 
 import pytest
 
-
 SCRIPT_PATH = pathlib.Path(__file__).parent.parent / "AULA03" / "mod_rh.py"
 
 
@@ -27,9 +26,7 @@ class TestScriptExiste:
 
     def test_arquivo_nao_vazio(self):
         """O script não deve estar vazio."""
-        assert SCRIPT_PATH.stat().st_size > 0, (
-            "O arquivo mod_rh.py está vazio."
-        )
+        assert SCRIPT_PATH.stat().st_size > 0, "O arquivo mod_rh.py está vazio."
 
 
 @pytest.fixture(scope="module")
@@ -48,24 +45,24 @@ def mod_rh():
 class TestCadastrarColaborador:
     def test_funcao_existe(self, mod_rh):
         """A função cadastrar_colaborador deve existir."""
-        assert hasattr(mod_rh, "cadastrar_colaborador"), (
-            "Função 'cadastrar_colaborador' não encontrada em mod_rh.py"
-        )
+        assert hasattr(
+            mod_rh, "cadastrar_colaborador"
+        ), "Função 'cadastrar_colaborador' não encontrada em mod_rh.py"
 
     def test_retorna_dicionario(self, mod_rh):
         """cadastrar_colaborador deve retornar um dicionário."""
         resultado = mod_rh.cadastrar_colaborador("Ana", "Analista", 5000.0)
-        assert isinstance(resultado, dict), (
-            f"Esperado dict, retornou {type(resultado).__name__}"
-        )
+        assert isinstance(
+            resultado, dict
+        ), f"Esperado dict, retornou {type(resultado).__name__}"
 
     def test_chaves_obrigatorias(self, mod_rh):
         """O dicionário deve conter as chaves 'nome', 'cargo' e 'salario'."""
         resultado = mod_rh.cadastrar_colaborador("Carlos", "Dev", 8000.0)
         for chave in ["nome", "cargo", "salario"]:
-            assert chave in resultado, (
-                f"Chave '{chave}' ausente no dicionário retornado"
-            )
+            assert (
+                chave in resultado
+            ), f"Chave '{chave}' ausente no dicionário retornado"
 
     def test_valores_corretos(self, mod_rh):
         """Os valores do dicionário devem corresponder aos parâmetros."""
@@ -77,17 +74,17 @@ class TestCadastrarColaborador:
     def test_tipo_salario_float(self, mod_rh):
         """O salário no dicionário deve ser do tipo float."""
         resultado = mod_rh.cadastrar_colaborador("João", "Estagiário", 2000.0)
-        assert isinstance(resultado["salario"], (int, float)), (
-            f"Salário deveria ser numérico, mas é {type(resultado['salario']).__name__}"
-        )
+        assert isinstance(
+            resultado["salario"], (int, float)
+        ), f"Salário deveria ser numérico, mas é {type(resultado['salario']).__name__}"
 
 
 class TestExibirColaboradores:
     def test_funcao_existe(self, mod_rh):
         """A função exibir_colaboradores deve existir."""
-        assert hasattr(mod_rh, "exibir_colaboradores"), (
-            "Função 'exibir_colaboradores' não encontrada em mod_rh.py"
-        )
+        assert hasattr(
+            mod_rh, "exibir_colaboradores"
+        ), "Função 'exibir_colaboradores' não encontrada em mod_rh.py"
 
     def test_aceita_lista_vazia(self, mod_rh):
         """exibir_colaboradores deve aceitar lista vazia sem erro."""
@@ -108,6 +105,4 @@ class TestExibirColaboradores:
     def test_retorno_none(self, mod_rh):
         """exibir_colaboradores deve retornar None (apenas imprime)."""
         resultado = mod_rh.exibir_colaboradores([])
-        assert resultado is None, (
-            f"Esperado retorno None, mas retornou {resultado}"
-        )
+        assert resultado is None, f"Esperado retorno None, mas retornou {resultado}"

@@ -1,3 +1,6 @@
+import pandas as pd
+
+
 lista = [1, 2, 3, 4, 5]
 lista.append(6)
 
@@ -7,7 +10,6 @@ tupla[0] = 6  # ERRO: tuplas sao imutaveis
 dicionario = {"nome": "Joao", "idade": 30}
 dicionario["idade"] = 31  # OK: dicionarios sao mutaveis
 print(dicionario["idade"])  # imprime 31]
-
 
 
 def saudacoes(nome):
@@ -38,7 +40,6 @@ funcao_input()
 
 
 
-import pandas as pd
 df = pd.read_csv("dados.csv")  # Lendo um arquivo CSV
 print(df.head())  # Mostrando as primeiras linhas do DataFrame
 
@@ -68,3 +69,4 @@ def menu():
             break
         else:
             print("Opção inválida. Tente novamente.")
+            

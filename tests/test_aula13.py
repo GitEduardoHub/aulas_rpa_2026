@@ -12,13 +12,16 @@ import pathlib
 
 import pytest
 
-
-SCRIPT_PATH = pathlib.Path(__file__).parent.parent / "AULA13" / "bot_faturamento_avancado.py"
+SCRIPT_PATH = (
+    pathlib.Path(__file__).parent.parent / "AULA13" / "bot_faturamento_avancado.py"
+)
 
 
 class TestScriptExiste:
     def test_arquivo_existe(self):
-        assert SCRIPT_PATH.exists(), "AULA13/bot_faturamento_avancado.py não encontrado."
+        assert (
+            SCRIPT_PATH.exists()
+        ), "AULA13/bot_faturamento_avancado.py não encontrado."
 
     def test_arquivo_nao_vazio(self):
         assert SCRIPT_PATH.stat().st_size > 0, "bot_faturamento_avancado.py está vazio."
@@ -34,9 +37,9 @@ def source_code():
 class TestQueue:
     def test_importa_queue(self, source_code):
         """O script deve importar queue."""
-        assert "queue" in source_code.lower() or "Queue" in source_code, (
-            "Módulo queue não importado."
-        )
+        assert (
+            "queue" in source_code.lower() or "Queue" in source_code
+        ), "Módulo queue não importado."
 
     def test_usa_queue_put_ou_get(self, source_code):
         """O script deve usar put/get da Queue."""
@@ -50,15 +53,15 @@ class TestLogging:
 
     def test_usa_rotating_file_handler(self, source_code):
         """O script deve usar RotatingFileHandler."""
-        assert "RotatingFileHandler" in source_code, (
-            "RotatingFileHandler não utilizado."
-        )
+        assert (
+            "RotatingFileHandler" in source_code
+        ), "RotatingFileHandler não utilizado."
 
     def test_app_rpa_log(self, source_code):
         """O log deve ser gravado em app_rpa.log."""
-        assert "app_rpa.log" in source_code, (
-            "Nome do arquivo de log 'app_rpa.log' não encontrado."
-        )
+        assert (
+            "app_rpa.log" in source_code
+        ), "Nome do arquivo de log 'app_rpa.log' não encontrado."
 
 
 class TestRetry:

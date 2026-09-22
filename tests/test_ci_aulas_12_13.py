@@ -42,6 +42,7 @@ def all_steps(workflow: dict) -> list[dict]:
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _step_run_commands(step: dict) -> list[str]:
     """Retorna as linhas do campo 'run' de um step como lista de strings."""
     run_block = step.get("run", "")
@@ -50,15 +51,13 @@ def _step_run_commands(step: dict) -> list[str]:
 
 def _find_steps_with_command(steps: list[dict], command: str) -> list[dict]:
     """Retorna steps cujo campo 'run' contém a string `command`."""
-    return [
-        step for step in steps
-        if command in step.get("run", "")
-    ]
+    return [step for step in steps if command in step.get("run", "")]
 
 
 # ---------------------------------------------------------------------------
 # Testes de sintaxe — py_compile (Requirements: 10.3, 6.1)
 # ---------------------------------------------------------------------------
+
 
 class TestPyCompileSteps:
 
@@ -106,14 +105,15 @@ class TestPyCompileSteps:
         # Steps distintos não devem ser o mesmo objeto
         ids_aula12 = {id(s) for s in steps_aula12}
         ids_aula13 = {id(s) for s in steps_aula13}
-        assert ids_aula12.isdisjoint(ids_aula13), (
-            "Os comandos py_compile de AULA12 e AULA13 devem estar em steps separados."
-        )
+        assert ids_aula12.isdisjoint(
+            ids_aula13
+        ), "Os comandos py_compile de AULA12 e AULA13 devem estar em steps separados."
 
 
 # ---------------------------------------------------------------------------
 # Teste de variável de ambiente MOCK_EMAIL (Requirements: 6.3)
 # ---------------------------------------------------------------------------
+
 
 class TestMockEmailEnvVar:
 
@@ -128,12 +128,9 @@ class TestMockEmailEnvVar:
         execution_steps = _find_steps_with_command(all_steps, cmd)
         # Filtra somente os steps de execução (não os de py_compile)
         exec_steps = [
-            s for s in execution_steps
-            if "py_compile" not in s.get("run", "")
+            s for s in execution_steps if "py_compile" not in s.get("run", "")
         ]
-        assert exec_steps, (
-            f"Nenhum step de execução encontrado para '{cmd}'."
-        )
+        assert exec_steps, f"Nenhum step de execução encontrado para '{cmd}'."
         step = exec_steps[0]
         env = step.get("env", {})
         assert "MOCK_EMAIL" in env, (
@@ -145,7 +142,9 @@ class TestMockEmailEnvVar:
             "O valor 'true' evita envio real de e-mails em CI."
         )
 
-    def test_bot_faturamento_step_does_not_require_mock_email(self, all_steps: list[dict]):
+    def test_bot_faturamento_step_does_not_require_mock_email(
+        self, all_steps: list[dict]
+    ):
         """
         Verifica que o step de execução de bot_faturamento_avancado.py
         NÃO exige MOCK_EMAIL (diferente do bot de cotação).
@@ -154,7 +153,8 @@ class TestMockEmailEnvVar:
         """
         cmd = "bot_faturamento_avancado.py"
         exec_steps = [
-            s for s in _find_steps_with_command(all_steps, cmd)
+            s
+            for s in _find_steps_with_command(all_steps, cmd)
             if "py_compile" not in s.get("run", "")
         ]
         if exec_steps:
@@ -167,6 +167,7 @@ class TestMockEmailEnvVar:
 # ---------------------------------------------------------------------------
 # Teste de verificação do app_rpa.log (Requirements: 6.4)
 # ---------------------------------------------------------------------------
+
 
 class TestAppRpaLogVerification:
 
@@ -222,28 +223,27 @@ class TestAppRpaLogVerification:
 # Sanidade geral do workflow
 # ---------------------------------------------------------------------------
 
+
 class TestWorkflowStructure:
 
     def test_workflow_file_exists(self):
         """Verifica que o arquivo ci_aulas_12_13.yml existe no repositório."""
         abs_path = os.path.abspath(WORKFLOW_PATH)
-        assert os.path.isfile(abs_path), (
-            f"Arquivo de workflow não encontrado: {abs_path}"
-        )
+        assert os.path.isfile(
+            abs_path
+        ), f"Arquivo de workflow não encontrado: {abs_path}"
 
     def test_workflow_uses_checkout_v4(self, all_steps: list[dict]):
         """Verifica que o workflow usa actions/checkout@v4. Validates: Requirements 9.1"""
         checkout_steps = [
-            s for s in all_steps
-            if "actions/checkout@v4" in s.get("uses", "")
+            s for s in all_steps if "actions/checkout@v4" in s.get("uses", "")
         ]
         assert checkout_steps, "O workflow deve usar 'actions/checkout@v4'."
 
     def test_workflow_uses_setup_python_v5(self, all_steps: list[dict]):
         """Verifica que o workflow usa actions/setup-python@v5. Validates: Requirements 9.2"""
         setup_steps = [
-            s for s in all_steps
-            if "actions/setup-python@v5" in s.get("uses", "")
+            s for s in all_steps if "actions/setup-python@v5" in s.get("uses", "")
         ]
         assert setup_steps, "O workflow deve usar 'actions/setup-python@v5'."
 
@@ -252,6 +252,6 @@ class TestWorkflowStructure:
         jobs = workflow.get("jobs", {})
         for job in jobs.values():
             runs_on = job.get("runs-on", "")
-            assert runs_on == "ubuntu-latest", (
-                f"O job deve usar 'ubuntu-latest', mas usa '{runs_on}'."
-            )
+            assert (
+                runs_on == "ubuntu-latest"
+            ), f"O job deve usar 'ubuntu-latest', mas usa '{runs_on}'."

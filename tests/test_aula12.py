@@ -12,7 +12,6 @@ import pathlib
 
 import pytest
 
-
 SCRIPT_PATH = pathlib.Path(__file__).parent.parent / "AULA12" / "bot_cotacao_alerta.py"
 
 
@@ -44,9 +43,9 @@ class TestImports:
 class TestAPI:
     def test_url_awesomeapi(self, source_code):
         """O script deve consultar a AwesomeAPI."""
-        assert "economia.awesomeapi.com.br" in source_code, (
-            "URL da AwesomeAPI não encontrada."
-        )
+        assert (
+            "economia.awesomeapi.com.br" in source_code
+        ), "URL da AwesomeAPI não encontrada."
 
     def test_extrai_bid(self, source_code):
         """O script deve extrair o campo 'bid' do JSON."""

@@ -12,8 +12,9 @@ import subprocess
 
 import pytest
 
-
-SCRIPT_PATH = pathlib.Path(__file__).parent.parent / "AULA02" / "validador_transacoes.py"
+SCRIPT_PATH = (
+    pathlib.Path(__file__).parent.parent / "AULA02" / "validador_transacoes.py"
+)
 
 
 class TestScriptExiste:
@@ -26,9 +27,9 @@ class TestScriptExiste:
 
     def test_arquivo_nao_vazio(self):
         """O script não deve estar vazio."""
-        assert SCRIPT_PATH.stat().st_size > 0, (
-            "O arquivo validador_transacoes.py está vazio."
-        )
+        assert (
+            SCRIPT_PATH.stat().st_size > 0
+        ), "O arquivo validador_transacoes.py está vazio."
 
 
 class TestExecucao:
@@ -78,9 +79,11 @@ class TestExecucao:
 
     def test_break_interrompe_apos_valor_negativo(self, resultado):
         """Após transação inválida (-50.0), o bot NÃO deve processar R$ 800.0."""
-        assert "800.0" not in resultado.stdout.split("[ERRO")[
-            -1
-        ] if "[ERRO" in resultado.stdout else True, (
+        assert (
+            "800.0" not in resultado.stdout.split("[ERRO")[-1]
+            if "[ERRO" in resultado.stdout
+            else True
+        ), (
             "O script parece continuar processando após transação inválida. "
             "Use 'break' para interromper o loop."
         )

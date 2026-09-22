@@ -9,7 +9,6 @@ import os
 import yaml
 import pytest
 
-
 WORKFLOW_PATH = os.path.join(
     os.path.dirname(__file__),
     "..",
@@ -44,11 +43,10 @@ def steps(job):
 # Testes de estrutura básica
 # ---------------------------------------------------------------------------
 
+
 def test_workflow_file_exists():
     """O arquivo ci_aula_04.yml deve existir em .github/workflows/."""
-    assert os.path.isfile(WORKFLOW_PATH), (
-        f"Arquivo não encontrado: {WORKFLOW_PATH}"
-    )
+    assert os.path.isfile(WORKFLOW_PATH), f"Arquivo não encontrado: {WORKFLOW_PATH}"
 
 
 def test_workflow_has_jobs(workflow):
@@ -60,6 +58,7 @@ def test_workflow_has_jobs(workflow):
 # Requisito 2.2 — fail-fast: false na estratégia Matrix
 # ---------------------------------------------------------------------------
 
+
 def test_fail_fast_is_false(job):
     """
     O job deve ter strategy.fail-fast definido como False.
@@ -68,12 +67,10 @@ def test_fail_fast_is_false(job):
     """
     strategy = job.get("strategy", {})
     assert strategy, "O job não possui uma seção 'strategy'."
-    assert "fail-fast" in strategy, (
-        "A seção 'strategy' não contém a chave 'fail-fast'."
-    )
-    assert strategy["fail-fast"] is False, (
-        f"Esperado fail-fast: false, mas encontrado: {strategy['fail-fast']}"
-    )
+    assert "fail-fast" in strategy, "A seção 'strategy' não contém a chave 'fail-fast'."
+    assert (
+        strategy["fail-fast"] is False
+    ), f"Esperado fail-fast: false, mas encontrado: {strategy['fail-fast']}"
 
 
 def test_matrix_python_versions(job):
@@ -91,13 +88,15 @@ def test_matrix_python_versions(job):
 # Requisito 2.4 — Step de cache com chave estruturada corretamente
 # ---------------------------------------------------------------------------
 
+
 def test_cache_step_exists(steps):
     """
     Deve existir um step que usa actions/cache@v4.
     Requirements: 2.4 (via Requirement 9.3)
     """
     cache_steps = [
-        s for s in steps
+        s
+        for s in steps
         if isinstance(s.get("uses"), str) and s["uses"].startswith("actions/cache@v4")
     ]
     assert cache_steps, "Nenhum step com 'actions/cache@v4' foi encontrado."
@@ -109,15 +108,16 @@ def test_cache_key_contains_runner_os(steps):
     Requirements: 2.4
     """
     cache_steps = [
-        s for s in steps
+        s
+        for s in steps
         if isinstance(s.get("uses"), str) and s["uses"].startswith("actions/cache@v4")
     ]
     assert cache_steps, "Nenhum step de cache encontrado."
 
     cache_key = cache_steps[0].get("with", {}).get("key", "")
-    assert "runner.os" in cache_key, (
-        f"A chave de cache não contém 'runner.os'. Chave atual: {cache_key!r}"
-    )
+    assert (
+        "runner.os" in cache_key
+    ), f"A chave de cache não contém 'runner.os'. Chave atual: {cache_key!r}"
 
 
 def test_cache_key_contains_matrix_python_version(steps):
@@ -126,15 +126,16 @@ def test_cache_key_contains_matrix_python_version(steps):
     Requirements: 2.4
     """
     cache_steps = [
-        s for s in steps
+        s
+        for s in steps
         if isinstance(s.get("uses"), str) and s["uses"].startswith("actions/cache@v4")
     ]
     assert cache_steps, "Nenhum step de cache encontrado."
 
     cache_key = cache_steps[0].get("with", {}).get("key", "")
-    assert "matrix.python-version" in cache_key, (
-        f"A chave de cache não contém 'matrix.python-version'. Chave atual: {cache_key!r}"
-    )
+    assert (
+        "matrix.python-version" in cache_key
+    ), f"A chave de cache não contém 'matrix.python-version'. Chave atual: {cache_key!r}"
 
 
 def test_cache_key_contains_hash_files_requirements(steps):
@@ -143,7 +144,8 @@ def test_cache_key_contains_hash_files_requirements(steps):
     Requirements: 2.4
     """
     cache_steps = [
-        s for s in steps
+        s
+        for s in steps
         if isinstance(s.get("uses"), str) and s["uses"].startswith("actions/cache@v4")
     ]
     assert cache_steps, "Nenhum step de cache encontrado."
@@ -158,6 +160,7 @@ def test_cache_key_contains_hash_files_requirements(steps):
 # ---------------------------------------------------------------------------
 # Requisito 2.4 — Flag --cov-fail-under=80 no comando pytest
 # ---------------------------------------------------------------------------
+
 
 def _get_pytest_run_steps(steps):
     """

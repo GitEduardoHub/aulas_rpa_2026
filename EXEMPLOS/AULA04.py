@@ -1,8 +1,9 @@
 import pandas as pd
 import logging
+
 w = "Olá, mundo!"
 try:
-    dados = pd.read_csv('arquivos/dados.csv', delimiter=';')
+    dados = pd.read_csv("arquivos/dados.csv", delimiter=";")
     logging.info(w)
     logging.info(dados.head())
 except FileNotFoundError:

@@ -12,7 +12,6 @@ import pathlib
 
 import pytest
 
-
 SCRIPT_PATH = pathlib.Path(__file__).parent.parent / "AULA10" / "leitor_faturas_pdf.py"
 
 
@@ -36,15 +35,15 @@ class TestImports:
         assert "pdfplumber" in source_code, "pdfplumber não importado."
 
     def test_importa_pandas(self, source_code):
-        assert "pandas" in source_code or "import pd" in source_code, (
-            "pandas não importado."
-        )
+        assert (
+            "pandas" in source_code or "import pd" in source_code
+        ), "pandas não importado."
 
     def test_importa_re(self, source_code):
         """O script deve usar expressões regulares (módulo re)."""
-        assert "import re" in source_code or "from re" in source_code, (
-            "Módulo 're' não importado."
-        )
+        assert (
+            "import re" in source_code or "from re" in source_code
+        ), "Módulo 're' não importado."
 
 
 class TestRegex:

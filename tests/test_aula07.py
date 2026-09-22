@@ -12,7 +12,6 @@ import pathlib
 
 import pytest
 
-
 AULA_DIR = pathlib.Path(__file__).parent.parent / "AULA07"
 
 

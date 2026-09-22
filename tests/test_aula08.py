@@ -11,7 +11,6 @@ import pathlib
 
 import pytest
 
-
 SCRIPT_PATH = pathlib.Path(__file__).parent.parent / "AULA08" / "bot_web_login.py"
 
 
@@ -43,9 +42,9 @@ class TestImportSelenium:
 class TestLogicaLogin:
     def test_url_treino(self, source_code):
         """O script deve acessar the-internet.herokuapp.com/login."""
-        assert "the-internet.herokuapp.com/login" in source_code, (
-            "URL de treino não encontrada no script."
-        )
+        assert (
+            "the-internet.herokuapp.com/login" in source_code
+        ), "URL de treino não encontrada no script."
 
     def test_campo_username(self, source_code):
         """O script deve localizar o campo 'username'."""

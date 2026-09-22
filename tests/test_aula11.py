@@ -12,7 +12,6 @@ import pathlib
 
 import pytest
 
-
 SCRIPT_PATH = pathlib.Path(__file__).parent.parent / "AULA11" / "scraper_noticias.py"
 
 
@@ -42,9 +41,9 @@ class TestImports:
 class TestLogica:
     def test_valida_status_code(self, source_code):
         """O script deve verificar o status code 200."""
-        assert "status_code" in source_code or "200" in source_code, (
-            "Verificação de status_code 200 não encontrada."
-        )
+        assert (
+            "status_code" in source_code or "200" in source_code
+        ), "Verificação de status_code 200 não encontrada."
 
     def test_usa_html_parser(self, source_code):
         """O script deve usar 'html.parser'."""

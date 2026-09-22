@@ -12,7 +12,6 @@ import pathlib
 
 import pytest
 
-
 SCRIPT_PATH = pathlib.Path(__file__).parent.parent / "AULA01" / "bot_initializer.py"
 
 
@@ -33,6 +32,7 @@ def bot_module():
 # Existência das variáveis obrigatórias
 # ---------------------------------------------------------------------------
 
+
 class TestVariaveisExistem:
     def test_bot_name_definida(self, bot_module):
         """A variável BOT_NAME deve estar definida no módulo."""
@@ -44,38 +44,43 @@ class TestVariaveisExistem:
 
     def test_execution_timeout_definida(self, bot_module):
         """A variável EXECUTION_TIMEOUT deve estar definida no módulo."""
-        assert hasattr(bot_module, "EXECUTION_TIMEOUT"), "Variável EXECUTION_TIMEOUT não encontrada"
+        assert hasattr(
+            bot_module, "EXECUTION_TIMEOUT"
+        ), "Variável EXECUTION_TIMEOUT não encontrada"
 
     def test_is_production_definida(self, bot_module):
         """A variável IS_PRODUCTION deve estar definida no módulo."""
-        assert hasattr(bot_module, "IS_PRODUCTION"), "Variável IS_PRODUCTION não encontrada"
+        assert hasattr(
+            bot_module, "IS_PRODUCTION"
+        ), "Variável IS_PRODUCTION não encontrada"
 
 
 # ---------------------------------------------------------------------------
 # Validação de tipos
 # ---------------------------------------------------------------------------
 
+
 class TestTiposCorretos:
     def test_bot_name_e_string(self, bot_module):
         """BOT_NAME deve ser do tipo str."""
-        assert isinstance(bot_module.BOT_NAME, str), (
-            f"BOT_NAME deveria ser str, mas é {type(bot_module.BOT_NAME).__name__}"
-        )
+        assert isinstance(
+            bot_module.BOT_NAME, str
+        ), f"BOT_NAME deveria ser str, mas é {type(bot_module.BOT_NAME).__name__}"
 
     def test_max_retries_e_int(self, bot_module):
         """MAX_RETRIES deve ser do tipo int."""
-        assert isinstance(bot_module.MAX_RETRIES, int), (
-            f"MAX_RETRIES deveria ser int, mas é {type(bot_module.MAX_RETRIES).__name__}"
-        )
+        assert isinstance(
+            bot_module.MAX_RETRIES, int
+        ), f"MAX_RETRIES deveria ser int, mas é {type(bot_module.MAX_RETRIES).__name__}"
 
     def test_execution_timeout_e_float(self, bot_module):
         """EXECUTION_TIMEOUT deve ser do tipo float."""
-        assert isinstance(bot_module.EXECUTION_TIMEOUT, float), (
-            f"EXECUTION_TIMEOUT deveria ser float, mas é {type(bot_module.EXECUTION_TIMEOUT).__name__}"
-        )
+        assert isinstance(
+            bot_module.EXECUTION_TIMEOUT, float
+        ), f"EXECUTION_TIMEOUT deveria ser float, mas é {type(bot_module.EXECUTION_TIMEOUT).__name__}"
 
     def test_is_production_e_bool(self, bot_module):
         """IS_PRODUCTION deve ser do tipo bool."""
-        assert isinstance(bot_module.IS_PRODUCTION, bool), (
-            f"IS_PRODUCTION deveria ser bool, mas é {type(bot_module.IS_PRODUCTION).__name__}"
-        )
+        assert isinstance(
+            bot_module.IS_PRODUCTION, bool
+        ), f"IS_PRODUCTION deveria ser bool, mas é {type(bot_module.IS_PRODUCTION).__name__}"
